@@ -1,7 +1,7 @@
 // pages/api/generate-story.ts
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { OpenAIAgent, BaseToolWithCall, BaseRetriever } from 'llamaindex';
+import { OpenAIAgent, OpenAI } from 'llamaindex';
 
 interface Personaje {
   nombre: string;
@@ -9,14 +9,11 @@ interface Personaje {
   personalidad: string;
 }
 
-// Creamos un dummyToolRetriever para satisfacer el tipado
+// Dummy tool retriever que implemente los métodos requeridos.
 const dummyToolRetriever = {
-  _retriever: null,
-  _objectNodeMapping: null,
-  retriever: async () => [],
-  retrievets: async () => [],
+  retrieve: async () => [],
   getTools: async () => [],
-} as unknown as ObjectRetriever<BaseToolWithCall>;
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -29,15 +26,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'Faltan parámetros (prompt o personajes)' });
     }
 
-    // Inicializa el agente de LlamaIndex.TS
+    // Instancia el modelo de OpenAI. Asegúrate de tener definida la variable de entorno OPENAI_API_KEY.
+    const llm = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    
+    // Inicializa el agente de LlamaIndex.TS incluyendo el llm
     const agent = new OpenAIAgent({
       verbose: true,
       toolRetriever: dummyToolRetriever,
-      // Se asume que la variable OPENAI_API_KEY está configurada
+      llm: llm,
     });
 
-    // Construye un prompt que combine la idea de la historia con la información de los personajes.
-    // Se formatea el array de personajes a un string para integrarlo al prompt.
+    // Prepara el prompt combinando la idea de la historia y la información de los personajes.
     const charactersStr = JSON.stringify(characters, null, 2);
 
     const fullPrompt = `
@@ -53,7 +52,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const result = await agent.chat({ message: fullPrompt });
     const resultString = String(result).trim();
 
-    // Se retorna el resultado, que se espera sea el texto de la historia.
     return res.status(200).json({ story: resultString });
   } catch (error: any) {
     console.error('Error generando la historia:', error);

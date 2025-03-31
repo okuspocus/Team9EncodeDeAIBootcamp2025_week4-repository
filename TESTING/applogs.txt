@@ -1,0 +1,132 @@
+gigi@gigi-AORUS-15-BSF:~/DEAI/Team9EncodeDeAIBootcamp2025_week4-repository$ cd story-rag && npm install && npm run dev
+(node:534646) ExperimentalWarning: CommonJS module /home/gigi/.nvm/versions/node/v23.1.0/lib/node_modules/npm/node_modules/debug/src/node.js is loading ES Module /home/gigi/.nvm/versions/node/v23.1.0/lib/node_modules/npm/node_modules/supports-color/index.js using require().
+Support for loading ES Module in require() is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+up to date, audited 393 packages in 1s
+
+150 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+> story-rag@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.2.4 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.137:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 773ms
+ ⚠ Cross origin request detected from 192.168.1.137 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ ○ Compiling / ...
+ ✓ Compiled / in 1055ms
+ GET / 200 in 1214ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 681ms
+ GET /favicon.ico 200 in 790ms
+ ✓ Compiled /api/extract in 102ms
+(node:534714) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Respuesta cruda del agente: ```json
+[
+  {
+    "nombre": "Jonah",
+    "descripción": "Narrador de la historia, anteriormente conocido como John. Es un escritor que intenta recopilar información para un libro sobre el día en que se lanzó la bomba atómica en Hiroshima.",
+    "personalidad": "Reflexivo, curioso y con un sentido del destino, ya que siente que ha sido llevado a ciertos lugares en momentos específicos sin saber por qué."
+  },
+  {
+    "nombre": "Bokonon",
+    "descripción": "Fundador de la religión ficticia Bokononismo, que cree que la humanidad está organizada en equipos llamados 'karass' que cumplen la voluntad de Dios sin saberlo.",
+    "personalidad": "Filosófico, irónico y crítico de la búsqueda humana de significado, ya que su religión se basa en 'mentiras agridulces'."
+  },
+  {
+    "nombre": "Dr. Felix Hoenikker",
+    "descripción": "Uno de los 'padres' de la bomba atómica, un científico excéntrico y padre de tres hijos.",
+    "personalidad": "Despreocupado por las normas sociales, absorto en sus propios intereses científicos, y aparentemente indiferente a las emociones humanas."
+  },
+  {
+    "nombre": "Newton 'Newt' Hoenikker",
+    "descripción": "El hijo menor de Felix Hoenikker, un enano que fue estudiante de pre-medicina antes de ser expulsado.",
+    "personalidad": "Reflexivo, con una mezcla de resentimiento y admiración hacia su padre, y un sentido de autocompasión pero también de gratitud por el amor en su vida."
+  },
+  {
+    "nombre": "Angela Hoenikker",
+    "descripción": "La hija mayor de Felix Hoenikker, que asumió el papel de madre para sus hermanos después de la muerte de su madre.",
+    "personalidad": "Responsable, protectora y devota a su padre, a quien idolatra a pesar de su indiferencia emocional."
+  },
+  {
+    "nombre": "Franklin 'Frank' Hoenikker",
+    "descripción": "El hijo mediano de Felix Hoenikker, conocido por su comportamiento reservado y su interés en los experimentos.",
+    "personalidad": "Introvertido, misterioso y con una inclinación hacia los experimentos y la observación de la naturaleza."
+  },
+  {
+    "nombre": "Dr. Asa Breed",
+    "descripción": "Vicepresidente a cargo del Laboratorio de Investigación de la General Forge and Foundry Company.",
+    "personalidad": "Optimista, civilizado y sereno, aunque con un trasfondo de frustración por la falta de control sobre Felix Hoenikker."
+  },
+  {
+    "nombre": "Sandra",
+    "descripción": "Una prostituta que solía ir a la escuela secundaria con Franklin Hoenikker.",
+    "personalidad": "Cínica, directa y con una visión crítica de la sociedad y las personas que la rodean."
+  },
+  {
+    "nombre": "Miss Francine Pefko",
+    "descripción": "Secretaria de Dr. Nilsak Horvath en el Laboratorio de Investigación.",
+    "personalidad": "Insegura, con una falta de comprensión de la ciencia que la rodea, pero con una disposición alegre y un deseo de encajar."
+  }
+]
+```
+Fragmento JSON extraído: [
+  {
+    "nombre": "Jonah",
+    "descripción": "Narrador de la historia, anteriormente conocido como John. Es un escritor que intenta recopilar información para un libro sobre el día en que se lanzó la bomba atómica en Hiroshima.",
+    "personalidad": "Reflexivo, curioso y con un sentido del destino, ya que siente que ha sido llevado a ciertos lugares en momentos específicos sin saber por qué."
+  },
+  {
+    "nombre": "Bokonon",
+    "descripción": "Fundador de la religión ficticia Bokononismo, que cree que la humanidad está organizada en equipos llamados 'karass' que cumplen la voluntad de Dios sin saberlo.",
+    "personalidad": "Filosófico, irónico y crítico de la búsqueda humana de significado, ya que su religión se basa en 'mentiras agridulces'."
+  },
+  {
+    "nombre": "Dr. Felix Hoenikker",
+    "descripción": "Uno de los 'padres' de la bomba atómica, un científico excéntrico y padre de tres hijos.",
+    "personalidad": "Despreocupado por las normas sociales, absorto en sus propios intereses científicos, y aparentemente indiferente a las emociones humanas."
+  },
+  {
+    "nombre": "Newton 'Newt' Hoenikker",
+    "descripción": "El hijo menor de Felix Hoenikker, un enano que fue estudiante de pre-medicina antes de ser expulsado.",
+    "personalidad": "Reflexivo, con una mezcla de resentimiento y admiración hacia su padre, y un sentido de autocompasión pero también de gratitud por el amor en su vida."
+  },
+  {
+    "nombre": "Angela Hoenikker",
+    "descripción": "La hija mayor de Felix Hoenikker, que asumió el papel de madre para sus hermanos después de la muerte de su madre.",
+    "personalidad": "Responsable, protectora y devota a su padre, a quien idolatra a pesar de su indiferencia emocional."
+  },
+  {
+    "nombre": "Franklin 'Frank' Hoenikker",
+    "descripción": "El hijo mediano de Felix Hoenikker, conocido por su comportamiento reservado y su interés en los experimentos.",
+    "personalidad": "Introvertido, misterioso y con una inclinación hacia los experimentos y la observación de la naturaleza."
+  },
+  {
+    "nombre": "Dr. Asa Breed",
+    "descripción": "Vicepresidente a cargo del Laboratorio de Investigación de la General Forge and Foundry Company.",
+    "personalidad": "Optimista, civilizado y sereno, aunque con un trasfondo de frustración por la falta de control sobre Felix Hoenikker."
+  },
+  {
+    "nombre": "Sandra",
+    "descripción": "Una prostituta que solía ir a la escuela secundaria con Franklin Hoenikker.",
+    "personalidad": "Cínica, directa y con una visión crítica de la sociedad y las personas que la rodean."
+  },
+  {
+    "nombre": "Miss Francine Pefko",
+    "descripción": "Secretaria de Dr. Nilsak Horvath en el Laboratorio de Investigación.",
+    "personalidad": "Insegura, con una falta de comprensión de la ciencia que la rodea, pero con una disposición alegre y un deseo de encajar."
+  }
+]
+ POST /api/extract 200 in 15381ms
+ ✓ Compiled /api/generate-story in 28ms
+ POST /api/generate-story 200 in 21479ms

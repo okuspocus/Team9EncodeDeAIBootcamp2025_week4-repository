@@ -18,3 +18,7 @@
 Character Extraction:
 
 ![imagen](https://github.com/user-attachments/assets/c226b141-cd3e-4646-97e6-a6683dbb1cca)
+
+And New History generation with the prompt idea and the characters above:
+
+![imagen](https://github.com/user-attachments/assets/06c62e54-0910-4308-bcf4-145385fa5722)

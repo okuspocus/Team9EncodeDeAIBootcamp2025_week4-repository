@@ -1,7 +1,7 @@
 // pages/api/extract.ts
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { OpenAIAgent, BaseToolWithCall, BaseRetriever } from 'llamaindex';
+import { OpenAIAgent } from 'llamaindex';
 
 interface Personaje {
   nombre: string;
@@ -9,15 +9,27 @@ interface Personaje {
   personalidad: string;
 }
 
-// Creamos un dummyToolRetriever que satisface la interfaz BaseRetriever<BaseToolWithCall>
-// Forzamos el tipado usando "as unknown as ObjectRetriever<BaseToolWithCall>"
+// Dummy tool retriever con el método retrieve
 const dummyToolRetriever = {
-  _retriever: null,
-  _objectNodeMapping: null,
-  retriever: async () => [],
-  retrievets: async () => [],
+  retrieve: async () => [],
   getTools: async () => [],
-} as unknown as BaseRetriever;
+};
+
+function extractJSON(text: string): string {
+  // Intenta extraer contenido entre triple backticks y "json"
+  const markdownMatch = text.match(/```json([\s\S]*?)```/);
+  if (markdownMatch) {
+    return markdownMatch[1].trim();
+  }
+  // Si no se encuentra, intenta extraer desde el primer '[' hasta el último ']'
+  const start = text.indexOf('[');
+  const end = text.lastIndexOf(']');
+  if (start !== -1 && end !== -1 && end > start) {
+    return text.substring(start, end + 1);
+  }
+  // Si no se puede extraer, retorna el texto original (esto puede lanzar error en JSON.parse)
+  return text;
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -30,14 +42,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'No se proporcionó el texto' });
     }
 
-    // Inicializa el agente de LlamaIndex.TS con el dummyToolRetriever.
     const agent = new OpenAIAgent({
       verbose: true,
-      retriever: dummyToolRetriever,
-      // Se asume que la librería usará la variable de entorno OPENAI_API_KEY internamente.
+      toolRetriever: dummyToolRetriever,
+      // Se asume que OPENAI_API_KEY está configurada en las variables de entorno.
     });
 
-    // Construye el prompt para solicitar la extracción de personajes.
     const prompt = `
       Extrae todos los personajes del siguiente texto.
       Cada personaje debe tener:
@@ -50,12 +60,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       ${text}
     `;
 
-    // Llama al agente con el prompt.
     const result = await agent.chat({ message: prompt });
     const resultString = String(result).trim();
+    console.log("Respuesta cruda del agente:", resultString);
 
-    // Se espera que el resultado sea un string JSON. Se intenta parsearlo.
-    const characters: Personaje[] = JSON.parse(resultString);
+    // Extraer el fragmento JSON de la respuesta
+    const jsonString = extractJSON(resultString);
+    console.log("Fragmento JSON extraído:", jsonString);
+
+    const characters: Personaje[] = JSON.parse(jsonString);
     
     return res.status(200).json({ characters });
   } catch (error: any) {
@@ -63,4 +76,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ error: 'Error procesando el texto' });
   }
 }
-
